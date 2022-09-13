@@ -13,6 +13,6 @@ namespace dal
         {
             
         }
-        public DbSet<Company> tblCompany { get; set; }
+        public DbSet<Users> Users { get; set; }
     }
 }

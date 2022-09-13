@@ -3,7 +3,17 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
+
+ <ItemGroup>
+    <ProjectReference Include="..\entities\entities.csproj" />
+    <ProjectReference Include="..\dal\dal.csproj" />
+  </ItemGroup>
+
+
+ <ItemGroup>
+   <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.8" />
+ </ItemGroup>
 </Project>
