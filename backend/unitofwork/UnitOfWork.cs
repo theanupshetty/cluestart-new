@@ -9,20 +9,11 @@ namespace unitofwork
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly DataContext _context;
-        private Repository<Users> _users;
+       private readonly DataContext _context;
+        private Dictionary<string, object> repositories;
         public UnitOfWork(DataContext context)
         {
             _context = context;
-
-        }
-        public IRepository<Users> Users
-        {
-            get
-            {
-                return _users ??
-                    (_users = new Repository<Users>(_context));
-            }
         }
         public int Complete()
         {
@@ -36,9 +27,28 @@ namespace unitofwork
             }
 
         }
+        
         public void Dispose()
         {
             _context.Dispose();
+        }
+
+        public Repository<T> Repository<T>() where T : class
+        {
+            if (repositories == null)
+            {
+                repositories = new Dictionary<string, object>();
+            }
+
+            var type = typeof(T).Name;
+
+            if (!repositories.ContainsKey(type))
+            {
+                var repositoryType = typeof(Repository<>);
+                var repositoryInstance = Activator.CreateInstance(repositoryType.MakeGenericType(typeof(T)), _context);
+                repositories.Add(type, repositoryInstance);
+            }
+            return (Repository<T>)repositories[type];
         }
     }
 }

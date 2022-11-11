@@ -9,8 +9,8 @@ namespace unitofwork
 {
     public interface IUnitOfWork : IDisposable
     {
-        IRepository<Users> Users { get; }
-        int Complete();
+       int Complete();
         DataContext GetContext { get; }
+        Repository<T> Repository<T>() where T : class;
     }
 }
